@@ -51,16 +51,24 @@ import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
 import cookieParser from "cookie-parser";
+
 import loggerMiddleware from "./src/middleware/logger.middleware.js";
+import errorMiddleware from "./src/middleware/error.middleware.js";
+import routes from "./src/routes/index.js";
 import routes from "./src/routes/index.js";
 import errorMiddleware from "./src/middleware/error.middleware.js";
 
 const app = express();
 
+// ==============================
 // Body Parser
+// ==============================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// ==============================
+// CORS
+// ==============================
 // ✅ CORS Configured with Explicit Allowed Headers
 app.use(
   cors({
@@ -71,6 +79,10 @@ app.use(
   })
 );
 
+// ==============================
+// Security
+// ==============================
+app.use(helmet());
 // ✅ Helmet configured to not block local cross-origin data
 app.use(
   helmet({
@@ -78,15 +90,29 @@ app.use(
   })
 );
 
+// ==============================
 // Compression
+// ==============================
 app.use(compression());
 
+// ==============================
 // Cookie Parser
+// ==============================
 app.use(cookieParser());
 
-// Logger
+// ==============================
+// Logger Middleware
+// ==============================
 app.use(loggerMiddleware);
 
+// ==============================
+// API Routes
+// ==============================
+app.use("/api", routes);
+
+// ==============================
+// Health Check Route
+// ==============================
 // API Routes
 app.use("/api/v1", routes);
 
@@ -98,6 +124,12 @@ app.get("/", (req, res) => {
   });
 });
 
+// ==============================
+// Global Error Middleware
+// ==============================
+app.use(errorMiddleware);
+
+export default app;
 app.use(errorMiddleware);
 
 export default app;
