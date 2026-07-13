@@ -1,0 +1,33 @@
+import express from "express";
+import portfolioRoutes from "../modules/portfolio/portfolio.routes.js";
+import galleryRoutes from "../modules/gallery/gallery.routes.js";
+import mediaRoutes from "../modules/media coverage/media.routes.js";
+import testimonialRoutes from "../modules/testimonials/testimonial.routes.js";
+import faqRoutes from "../modules/FAQ/faq.routes.js";
+import blogRoutes from "../modules/blogs/blog.routes.js";
+import careerRoutes from "../modules/career/job.routes.js";
+import resumeRoutes from "../modules/resume/resume.routes.js";
+import userRoutes from "../modules/users/user.routes.js";   
+import seoRoutes from "../modules/seo/seo.routes.js";
+import pageSEORoutes from "../modules/pageSEO/pageSEO.routes.js";
+import redirectRoutes from "../modules/redirects/redirect.routes.js";
+import websiteSettingsRoutes from "../modules/websiteSettings/wensiteSettings.routes.js";
+import analyticsRoutes from "../modules/analytics/analytics.routes.js";
+const router = express.Router();
+
+router.use("/portfolio", portfolioRoutes);
+router.use("/gallery", galleryRoutes);
+router.use("/testimonials", testimonialRoutes);
+router.use("/faq", faqRoutes);
+router.use("/media-coverage", mediaRoutes);
+router.use("/blogs", blogRoutes);
+router.use("/career", careerRoutes);
+router.use("/resume", resumeRoutes);
+router.use("/users", userRoutes);
+router.use("/seo", seoRoutes);
+router.use("/page-seo", pageSEORoutes);
+router.use("/redirects", redirectRoutes);
+router.use("/website-settings", websiteSettingsRoutes);
+router.use("/analytics", analyticsRoutes);
+
+export default router;
