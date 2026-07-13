@@ -2,26 +2,41 @@ import jwt from "jsonwebtoken";
 
 const authMiddleware = (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
+    const authHeader = req.headers.authorization;
 
-    if (!token) {
+    if (!authHeader) {
       return res.status(401).json({
         success: false,
         message: "Access Denied. Token Missing.",
       });
     }
 
+    const parts = authHeader.trim().split(/\s+/);
+
+    if (parts.length !== 2 || parts[0] !== "Bearer") {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid Authorization Format",
+      });
+    }
+
+    const token = parts[1];
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = decoded;
+    req.admin = decoded;
 
     next();
   } catch (error) {
+    console.log(error);
+
     return res.status(401).json({
       success: false,
-      message: "Invalid Token",
+      message: error.message,
     });
   }
 };
 
 export default authMiddleware;
+
+
